@@ -59,7 +59,7 @@ namespace PudelkoProject
         public string ToString(string? format, IFormatProvider? formatProvider)
         {
             if (String.IsNullOrEmpty(format)) format = "M";
-            if (formatProvider == null) formatProvider = CultureInfo.CurrentCulture;
+            formatProvider ??= CultureInfo.CurrentCulture;
 
             int offset;
             switch (format.ToUpper())
