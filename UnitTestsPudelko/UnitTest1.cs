@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
+using PudelkoProject.Enums;
+using PudelkoProject;
 
-namespace PudelkoUnitTests
+namespace UnitTestsPudelko
 {
 
     [TestClass]

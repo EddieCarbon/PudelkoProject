@@ -4,7 +4,7 @@ using PudelkoProject.Enums;
 
 namespace PudelkoProject
 {
-    public sealed class Pudelko
+    public sealed class Pudelko : IFormattable
     {
         private readonly double[] dimensions;
 
@@ -36,15 +36,52 @@ namespace PudelkoProject
 
             this.dimensions = dimensions;
         } // Main constructor
+        #endregion
         
-        public
+        #region External properties
+        
+        public double A { get => Math.Round(dimensions[0] / 1000, 3); }
+        public double B { get => Math.Round(dimensions[1] / 1000, 3); }
+        public double C { get => Math.Round(dimensions[2] / 1000, 3); }
+        
+        #endregion
 
+        #region Implementation IFormatable
 
+        public override string ToString()
+        {
+            return this.ToString("M", CultureInfo.CurrentCulture);
+        }
+        public string ToString(string format)
+        {
+            return this.ToString(format, CultureInfo.CurrentCulture);
+        }
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            if (String.IsNullOrEmpty(format)) format = "M";
+            if (formatProvider == null) formatProvider = CultureInfo.CurrentCulture;
 
-
-    }
-
-
+            int offset;
+            switch (format.ToUpper())
+            {
+                case "MM":
+                    offset = 1000;
+                    return $"{(A * offset).ToString("F0", formatProvider)} mm × " +
+                           $"{(B * offset).ToString("F0", formatProvider)} mm × " +
+                           $"{(C * offset).ToString("F0", formatProvider)} mm";
+                case "CM":
+                    offset = 100;
+                    return $"{(A * offset).ToString("F1", formatProvider)} cm × " +
+                           $"{(B * offset).ToString("F1", formatProvider)} cm × " +
+                           $"{(C * offset).ToString("F1", formatProvider)} cm";
+                case "M":
+                    return $"{A.ToString("F3", formatProvider)} m × " +
+                           $"{B.ToString("F3", formatProvider)} m × " +
+                           $"{C.ToString("F3", formatProvider)}";
+                default:
+                    throw new FormatException(String.Format($"The {format} format string is not supported."));
+            }
+        }
         #endregion
     }
 }
