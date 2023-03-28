@@ -36,6 +36,8 @@ namespace PudelkoProject
 
             this.dimensions = dimensions;
         } // Main constructor
+        
+        public
 
 
 
