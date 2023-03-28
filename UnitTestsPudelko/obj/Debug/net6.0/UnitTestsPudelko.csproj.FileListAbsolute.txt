@@ -1,0 +1,6 @@
+/Users/jakubtomiczek/RiderProjects/PudelkoProject/UnitTestsPudelko/bin/Debug/net6.0/CoverletSourceRootsMapping
+/Users/jakubtomiczek/RiderProjects/PudelkoProject/UnitTestsPudelko/obj/Debug/net6.0/UnitTestsPudelko.csproj.AssemblyReference.cache
+/Users/jakubtomiczek/RiderProjects/PudelkoProject/UnitTestsPudelko/obj/Debug/net6.0/UnitTestsPudelko.GeneratedMSBuildEditorConfig.editorconfig
+/Users/jakubtomiczek/RiderProjects/PudelkoProject/UnitTestsPudelko/obj/Debug/net6.0/UnitTestsPudelko.AssemblyInfoInputs.cache
+/Users/jakubtomiczek/RiderProjects/PudelkoProject/UnitTestsPudelko/obj/Debug/net6.0/UnitTestsPudelko.AssemblyInfo.cs
+/Users/jakubtomiczek/RiderProjects/PudelkoProject/UnitTestsPudelko/obj/Debug/net6.0/UnitTestsPudelko.csproj.CoreCompileInputs.cache
