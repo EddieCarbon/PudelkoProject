@@ -49,11 +49,11 @@ namespace UnitTestsPudelko
 
         [DataTestMethod, TestCategory("Constructors")]
         [DataRow(1.0, 2.543, 3.1,
-                 1.0, 2.543, 3.1)]
+            1.0, 2.543, 3.1)]
         [DataRow(1.0001, 2.54387, 3.1005,
-                 1.0, 2.543, 3.1)] // dla metrów liczą się 3 miejsca po przecinku
+            1.0, 2.543, 3.1)] // dla metrów liczą się 3 miejsca po przecinku
         public void Constructor_3params_DefaultMeters(double a, double b, double c,
-                                                      double expectedA, double expectedB, double expectedC)
+            double expectedA, double expectedB, double expectedC)
         {
             Pudelko p = new Pudelko(a, b, c);
 
@@ -62,11 +62,11 @@ namespace UnitTestsPudelko
 
         [DataTestMethod, TestCategory("Constructors")]
         [DataRow(1.0, 2.543, 3.1,
-                 1.0, 2.543, 3.1)]
+            1.0, 2.543, 3.1)]
         [DataRow(1.0001, 2.54387, 3.1005,
-                 1.0, 2.543, 3.1)] // dla metrów liczą się 3 miejsca po przecinku
+            1.0, 2.543, 3.1)] // dla metrów liczą się 3 miejsca po przecinku
         public void Constructor_3params_InMeters(double a, double b, double c,
-                                                      double expectedA, double expectedB, double expectedC)
+            double expectedA, double expectedB, double expectedC)
         {
             Pudelko p = new Pudelko(a, b, c, unit: UnitOfMeasure.meter);
 
@@ -75,11 +75,11 @@ namespace UnitTestsPudelko
 
         [DataTestMethod, TestCategory("Constructors")]
         [DataRow(100.0, 25.5, 3.1,
-                 1.0, 0.255, 0.031)]
+            1.0, 0.255, 0.031)]
         [DataRow(100.0, 25.58, 3.13,
-                 1.0, 0.255, 0.031)] // dla centymertów liczy się tylko 1 miejsce po przecinku
+            1.0, 0.255, 0.031)] // dla centymertów liczy się tylko 1 miejsce po przecinku
         public void Constructor_3params_InCentimeters(double a, double b, double c,
-                                                      double expectedA, double expectedB, double expectedC)
+            double expectedA, double expectedB, double expectedC)
         {
             Pudelko p = new Pudelko(a: a, b: b, c: c, unit: UnitOfMeasure.centimeter);
 
@@ -88,11 +88,11 @@ namespace UnitTestsPudelko
 
         [DataTestMethod, TestCategory("Constructors")]
         [DataRow(100, 255, 3,
-                 0.1, 0.255, 0.003)]
+            0.1, 0.255, 0.003)]
         [DataRow(100.0, 25.58, 3.13,
-                 0.1, 0.025, 0.003)] // dla milimetrów nie liczą się miejsca po przecinku
+            0.1, 0.025, 0.003)] // dla milimetrów nie liczą się miejsca po przecinku
         public void Constructor_3params_InMilimeters(double a, double b, double c,
-                                                     double expectedA, double expectedB, double expectedC)
+            double expectedA, double expectedB, double expectedC)
         {
             Pudelko p = new Pudelko(unit: UnitOfMeasure.milimeter, a: a, b: b, c: c);
 
@@ -196,27 +196,27 @@ namespace UnitTestsPudelko
 
         public static IEnumerable<object[]> DataSet1Meters_ArgumentOutOfRangeEx => new List<object[]>
         {
-            new object[] {-1.0, 2.5, 3.1},
-            new object[] {1.0, -2.5, 3.1},
-            new object[] {1.0, 2.5, -3.1},
-            new object[] {-1.0, -2.5, 3.1},
-            new object[] {-1.0, 2.5, -3.1},
-            new object[] {1.0, -2.5, -3.1},
-            new object[] {-1.0, -2.5, -3.1},
-            new object[] {0, 2.5, 3.1},
-            new object[] {1.0, 0, 3.1},
-            new object[] {1.0, 2.5, 0},
-            new object[] {1.0, 0, 0},
-            new object[] {0, 2.5, 0},
-            new object[] {0, 0, 3.1},
-            new object[] {0, 0, 0},
-            new object[] {10.1, 2.5, 3.1},
-            new object[] {10, 10.1, 3.1},
-            new object[] {10, 10, 10.1},
-            new object[] {10.1, 10.1, 3.1},
-            new object[] {10.1, 10, 10.1},
-            new object[] {10, 10.1, 10.1},
-            new object[] {10.1, 10.1, 10.1}
+            new object[] { -1.0, 2.5, 3.1 },
+            new object[] { 1.0, -2.5, 3.1 },
+            new object[] { 1.0, 2.5, -3.1 },
+            new object[] { -1.0, -2.5, 3.1 },
+            new object[] { -1.0, 2.5, -3.1 },
+            new object[] { 1.0, -2.5, -3.1 },
+            new object[] { -1.0, -2.5, -3.1 },
+            new object[] { 0, 2.5, 3.1 },
+            new object[] { 1.0, 0, 3.1 },
+            new object[] { 1.0, 2.5, 0 },
+            new object[] { 1.0, 0, 0 },
+            new object[] { 0, 2.5, 0 },
+            new object[] { 0, 0, 3.1 },
+            new object[] { 0, 0, 0 },
+            new object[] { 10.1, 2.5, 3.1 },
+            new object[] { 10, 10.1, 3.1 },
+            new object[] { 10, 10, 10.1 },
+            new object[] { 10.1, 10.1, 3.1 },
+            new object[] { 10.1, 10, 10.1 },
+            new object[] { 10, 10.1, 10.1 },
+            new object[] { 10.1, 10.1, 10.1 }
         };
 
         [DataTestMethod, TestCategory("Constructors")]
@@ -301,15 +301,15 @@ namespace UnitTestsPudelko
 
         public static IEnumerable<object[]> DataSet2Meters_ArgumentOutOfRangeEx => new List<object[]>
         {
-            new object[] {-1.0, 2.5},
-            new object[] {1.0, -2.5},
-            new object[] {-1.0, -2.5},
-            new object[] {0, 2.5},
-            new object[] {1.0, 0},
-            new object[] {0, 0},
-            new object[] {10.1, 10},
-            new object[] {10, 10.1},
-            new object[] {10.1, 10.1}
+            new object[] { -1.0, 2.5 },
+            new object[] { 1.0, -2.5 },
+            new object[] { -1.0, -2.5 },
+            new object[] { 0, 2.5 },
+            new object[] { 1.0, 0 },
+            new object[] { 0, 0 },
+            new object[] { 10.1, 10 },
+            new object[] { 10, 10.1 },
+            new object[] { 10.1, 10.1 }
         };
 
         [DataTestMethod, TestCategory("Constructors")]
@@ -412,7 +412,6 @@ namespace UnitTestsPudelko
         }
 
         #endregion
-
 
         #region ToString tests ===================================
 

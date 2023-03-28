@@ -43,6 +43,10 @@ namespace PudelkoProject
         public double A { get => Math.Round(dimensions[0] / 1000, 3); }
         public double B { get => Math.Round(dimensions[1] / 1000, 3); }
         public double C { get => Math.Round(dimensions[2] / 1000, 3); }
+        public double Objetosc
+        {
+            get => Math.Round((dimensions[0] / 1000) * (dimensions[1] / 1000) * (dimensions[2] / 1000), 9);
+        }
         
         #endregion
 
@@ -56,7 +60,7 @@ namespace PudelkoProject
         {
             return this.ToString(format, CultureInfo.CurrentCulture);
         }
-        public string ToString(string? format, IFormatProvider? formatProvider)
+        public string ToString(string format, IFormatProvider? formatProvider)
         {
             if (String.IsNullOrEmpty(format)) format = "M";
             formatProvider ??= CultureInfo.CurrentCulture;
@@ -77,7 +81,7 @@ namespace PudelkoProject
                 case "M":
                     return $"{A.ToString("F3", formatProvider)} m × " +
                            $"{B.ToString("F3", formatProvider)} m × " +
-                           $"{C.ToString("F3", formatProvider)}";
+                           $"{C.ToString("F3", formatProvider)} m";
                 default:
                     throw new FormatException(String.Format($"The {format} format string is not supported."));
             }
