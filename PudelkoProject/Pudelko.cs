@@ -1,4 +1,5 @@
 using System.Collections;
+using System.ComponentModel;
 using System.Globalization;
 using PudelkoProject.Enums;
 
@@ -47,7 +48,14 @@ namespace PudelkoProject
         {
             get => Math.Round((dimensions[0] / 1000) * (dimensions[1] / 1000) * (dimensions[2] / 1000), 9);
         }
-        
+        public double Pole
+        {
+            get => Math.Round(
+                2 * (dimensions[0] / 1000) * (dimensions[1] / 1000) +
+                2 * (dimensions[0] / 1000) * (dimensions[2] / 1000) +
+                2 * (dimensions[1] / 1000) * (dimensions[2] / 1000), 6);
+        }
+
         #endregion
 
         #region Implementation IFormatable
