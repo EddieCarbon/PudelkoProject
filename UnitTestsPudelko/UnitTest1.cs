@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Threading;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Serialization;
 using PudelkoProject.Enums;
 using PudelkoProject;
 
@@ -526,7 +527,41 @@ namespace UnitTestsPudelko
         #endregion
 
         #region Operators overloading ===========================
-        // ToDo
+
+        [DataTestMethod, TestCategory("Operators overloading")]
+        [DataRow(2, 2, 2, 1, 1, 1, 3, 2, 2)]
+        [DataRow(3, 3, 3, 3, 3, 3, 6, 3, 3)]
+        [DataRow(9, 9, 9, 0.001, 0.001, 0.001, 9, 9, 9.001)]
+        [DataRow(0.5, 0.5, 0.5, 0.25, 0.25, 0.25, 0.75, 0.5, 0.5)]
+        [DataRow(4, 4, 0.001, 0.001, 4, 4, 4, 4, 0.002)]
+        [DataRow(4, 0.001, 0.001, 4, 0.001, 0.001, 4, 0.002, 0.001)]
+        [DataRow(5, 5, 2, 5, 2, 5, 5, 5, 4)]
+        [DataRow(0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.002, 0.001, 0.001)]
+        [DataRow(1, 2, 3, 3, 2, 1, 3, 2, 2)]
+        [DataRow(10, 10, 5, 10, 10, 5, 10, 10, 10)]
+        public void Operators_Overloading_Test(double a, double b, double c, double d, double e, double f, double result1, double result2, double result3)
+        {
+            var p1 = new Pudelko(a, b, c);
+            var p2 = new Pudelko(d, e, f);
+
+            Pudelko controlBox = new Pudelko(result1, result2, result3);
+            var resultBox = p1 + p2;
+            Assert.AreEqual(controlBox, resultBox);
+        }
+
+        [DataTestMethod, TestCategory("Operators overloading")]
+        [DataRow(10, 10, 5, 10, 10, 5.001)]
+        [DataRow(10, 10, 5, 10, 10, 10)]
+        [DataRow(7, 7, 7, 7, 7, 7)]
+        [DataRow(6.001, 6.001, 6.001, 6.001, 6.001, 6.001)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Operator_N_Overloading_Test(double a, double b, double c, double d, double e, double f)
+        {
+            var p1 = new Pudelko(a, b, c);
+            var p2 = new Pudelko(d, e, f);
+
+            var result = p1 + p2;
+        }
         #endregion
 
         #region Conversions =====================================
@@ -542,7 +577,7 @@ namespace UnitTestsPudelko
         }
 
         [TestMethod]
-        public void ImplicitConversion_FromAalueTuple_As_Pudelko_InMilimeters()
+        public void ImplicitConversion_FromValueTuple_As_Pudelko_InMilimeters()
         {
             var (a, b, c) = (2500, 9321, 100); // in milimeters, ValueTuple
             Pudelko p = (a, b, c);
@@ -580,6 +615,33 @@ namespace UnitTestsPudelko
 
         #region Parsing =========================================
 
+        [DataTestMethod, TestCategory("Parsing")]
+        [DataRow("2000 mm × 9321 mm × 100 mm", 3)]
+        public void Parsing_Inputs(string input, int count)
+        {
+            var p = Pudelko.Parse(input);
+            var tab = new[] { 2, 9.321, 0.1 };
+
+            if (count == 1) Assert.AreEqual(p.A, tab[0]);
+            else if (count == 2) Assert.AreEqual(p.B, tab[1]);
+            else if (count == 3) Assert.AreEqual(p.C, tab[2]);
+        }
+
+
+        [DataTestMethod, TestCategory("Parse_Excepcion")]
+        [DataRow("2500 km × 9321 km × 100 km")]
+        [DataRow("2500 nm × 9321 nm × 100 nm")]
+        [DataRow("2000mm × 9321 mm × 100 mm")]
+        [DataRow("2000 mm × 9321mm × 100 mm")]
+        [DataRow("2000 mm × 9321 mm × 100mm")]
+        [DataRow("2500 mm × 9321 km")]
+        [DataRow("2500 km")]
+        [DataRow("2500 nm")]
+        [ExpectedException(typeof(FormatException))]
+        public void Parse_Input_Excepction(string input)
+        {
+            var p = Pudelko.Parse(input);
+        }
         #endregion
 
     }
