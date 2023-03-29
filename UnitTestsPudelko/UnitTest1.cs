@@ -503,6 +503,26 @@ namespace UnitTestsPudelko
             Assert.AreEqual(false, p1 != p2);
             
         }
+        
+        [DataTestMethod, TestCategory("NotEquals")]
+        [DataRow(1, 2, 3, 2, 2, 1)]
+        [DataRow(1, 1, 3, 1, 2, 3)]
+        [DataRow(0.02, 0.02, 0.03, 0.01, 0.02, 0.01)]
+        [DataRow(0.01, 0.01, 0.03, 0.01, 0.03, 0.03)]
+        [DataRow(3, 2, 2, 1, 2, 2)]
+        [DataRow(5, 4, 5, 5, 5, 5)]
+        [DataRow(0.002, 0.001, 0.001, 0.001, 0.001, 0.001)]
+        [DataRow(5, 5, 2, 5, 1, 5)]
+        [DataRow(10, 9.999, 10, 10, 10, 10)]
+        [DataRow(8, 0.001, 7.999, 8, 8, 0.001)]
+        public void Equal_And_NotEqual_NOK_Tests(double a, double b, double c, double d, double e, double f)
+        {
+            var p1 = new Pudelko(a, b, c);
+            var p2 = new Pudelko(d, e, f);
+            
+            Assert.AreEqual(false, p1 == p2);
+            Assert.AreEqual(true, p1 != p2);
+        }
         #endregion
 
         #region Operators overloading ===========================
