@@ -117,18 +117,49 @@ namespace PudelkoProject
         }
         public override int GetHashCode() => this.dimensions.GetHashCode();
 
-        public static bool Equals(Pudelko? p1, Pudelko? p2)
+        public static bool Equals(Pudelko p1, Pudelko p2)
         {
-            if ((p1 is null) && (p2 is null)) 
-                return false;
-            if ((p1 is null)) 
-                return false;
+            if ((p1 is null) && (p2 is null)) return false;
+            if ((p1 is null)) return false;
 
             return p1.Equals(p2);
         }
-
         public static bool operator ==(Pudelko p1, Pudelko p2) => Equals(p1, p2);
         public static bool operator !=(Pudelko p1, Pudelko p2) => !(p1 == p2);
+        #endregion
+        
+        #region Implementation of operators
+        public static Pudelko operator +(Pudelko p1, Pudelko p2)
+        {
+            double outputA, outputB, outputC;
+            double[] dimensionsP1 = { p1.A, p1.B, p1.C };
+            double[] dimensionsP2 = { p2.A, p2.B, p2.C };
+            
+            Array.Sort(dimensionsP1);
+            Array.Sort(dimensionsP2);
+
+            if (dimensionsP1[2] > dimensionsP2[2])
+                outputA = dimensionsP1[2];
+            else
+                outputA = dimensionsP2[2];
+            
+            if (dimensionsP1[1] > dimensionsP1[2])
+                outputB = dimensionsP1[1];
+            else
+                outputB = dimensionsP2[1];
+
+            outputC = dimensionsP1[0] + dimensionsP2[0];
+
+            return new Pudelko(outputA, outputB, outputC);
+        }
+
+
+
+
+
+        }
+        
+
         #endregion
         
     }
