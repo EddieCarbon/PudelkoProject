@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Threading;
 using PudelkoProject.Enums;
@@ -447,8 +448,35 @@ namespace UnitTestsPudelko
 
 
         #region Pole, Objętość ===================================
-        // ToDo
 
+        [DataTestMethod, TestCategory("Area")]
+        [DataRow(0.001, 0.001, 0.001)]
+        [DataRow(5, 5, 5)]
+        [DataRow(10, 10, 10)]
+        [DataRow(10, 0.001, 10)]
+        [DataRow(0.002, 10, 5)]
+        public void Pole_AreaTest(double a, double b, double c)
+        {
+            var p = new Pudelko(a, b, c);
+            var m = Math.Round(2 * a * b + 2 * a * c + 2 * b * c, 6);
+            
+            Assert.AreEqual(m, p.Pole);
+        }
+
+        [DataTestMethod, TestCategory("Capacity")]
+        [DataRow(0.001, 0.001, 0.001)]
+        [DataRow(5, 5, 5)]
+        [DataRow(10, 10, 10)]
+        [DataRow(10, 0.001, 10)]
+        [DataRow(0.002, 10, 5)]
+
+        public void Objetosc_Capality_Test(double a, double b, double c)
+        {
+            var p = new Pudelko(a, b, c);
+            var m = Math.Round(a * b * c, 9);
+            
+            Assert.AreEqual(m, p);
+        }
         #endregion
 
         #region Equals ===========================================
