@@ -1,5 +1,6 @@
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using PudelkoProject.Enums;
 
@@ -67,7 +68,7 @@ namespace PudelkoProject
         {
             return this.ToString(format, CultureInfo.CurrentCulture);
         }
-        public string ToString(string format, IFormatProvider? formatProvider)
+        public string ToString(string? format, IFormatProvider? formatProvider)
         {
             if (String.IsNullOrEmpty(format)) format = "M";
             formatProvider ??= CultureInfo.CurrentCulture;
@@ -97,7 +98,7 @@ namespace PudelkoProject
         #endregion
         #region Implementation IEquatable
 
-        public bool Equals(Pudelko other)
+        public bool Equals(Pudelko? other)
         {
             if (other == null) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -109,7 +110,7 @@ namespace PudelkoProject
             return thisBox[0] == otherBox[0] & thisBox[1] == otherBox[1] & thisBox[2] == otherBox[2];
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is Pudelko) return Equals((Pudelko)obj);
             return false;
@@ -188,8 +189,42 @@ namespace PudelkoProject
         
         #endregion
         
-        
-        
+        public double this[int i] { get => Math.Round(dimensions[i] / 1000, 3); }
+
+        public static Pudelko Parse(string input)
+        {
+            if (String.IsNullOrWhiteSpace(input)) throw new ArgumentException(input);
+
+            string[] inputWords = input.Split("×");
+            double[] inputDimensions = { 100, 100, 100 };
+
+            if (inputWords.Length > 3) throw new FormatException("Format exceeded third dimension.");
+            
+            for (int i = 0; i < inputWords.Length; i++)
+            {
+                int factor;
+                string[] word = inputWords[i].Split(' ');
+                
+                if (word.Length == 1) factor = 100;
+                else if (word[1].ToUpper() == "M")
+                    factor = 1000;
+                else if (word[1].ToUpper() == "CM")
+                    factor = 10;
+                else if (word[1].ToUpper() == "MM")
+                    factor = 1;
+                else
+                    throw new FormatException($"Format {word[i]} is not suported");
+
+                bool conversionSuccess = double.TryParse(word[0], out double parsedValue);
+
+                if (!conversionSuccess)
+                    throw new FormatException("Conversion failed. Input string was not correctly formated.");
+                
+                inputDimensions[i] = parsedValue * factor;
+            }
+
+            return new Pudelko(inputDimensions[0], inputDimensions[1], inputDimensions[2], UnitOfMeasure.milimeter);
+        } // Parse from string
     }
 }
 
