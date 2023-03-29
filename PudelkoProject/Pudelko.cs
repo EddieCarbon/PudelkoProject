@@ -5,7 +5,7 @@ using PudelkoProject.Enums;
 
 namespace PudelkoProject
 {
-    public sealed class Pudelko : IFormattable
+    public sealed class Pudelko : IFormattable, IEquatable<Pudelko>
     {
         private readonly double[] dimensions;
 
@@ -95,6 +95,42 @@ namespace PudelkoProject
             }
         }
         #endregion
+
+        #region Implementation IEquatable
+
+        public bool Equals(Pudelko other)
+        {
+            if (other == null) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            double[] thisBox = { this.A, this.B, this.C };
+            double[] otherBox = { other.A, other.B, other.C };
+            Array.Sort(thisBox);
+            Array.Sort(otherBox);
+            return thisBox[0] == otherBox[0] & thisBox[1] == otherBox[1] & thisBox[2] == otherBox[2];
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Pudelko) return Equals((Pudelko)obj);
+            return false;
+        }
+        public override int GetHashCode() => this.dimensions.GetHashCode();
+
+        public static bool Equals(Pudelko? p1, Pudelko? p2)
+        {
+            if ((p1 is null) && (p2 is null)) 
+                return false;
+            if ((p1 is null)) 
+                return false;
+
+            return p1.Equals(p2);
+        }
+
+        public static bool operator ==(Pudelko p1, Pudelko p2) => Equals(p1, p2);
+        public static bool operator !=(Pudelko p1, Pudelko p2) => !(p1 == p2);
+        #endregion
+        
     }
 }
 
