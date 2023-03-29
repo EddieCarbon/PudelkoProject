@@ -5,7 +5,7 @@ using PudelkoProject.Enums;
 
 namespace PudelkoProject
 {
-    public sealed class Pudelko : IFormattable, IEquatable<Pudelko>
+    public sealed class Pudelko : IFormattable, IEquatable<Pudelko>, IEnumerator
     {
         private readonly double[] dimensions;
 
@@ -37,8 +37,8 @@ namespace PudelkoProject
 
             this.dimensions = dimensions;
         } // Main constructor
-        #endregion
         
+        #endregion
         #region External properties
         
         public double A { get => Math.Round(dimensions[0] / 1000, 3); }
@@ -57,7 +57,6 @@ namespace PudelkoProject
         }
 
         #endregion
-
         #region Implementation IFormatable
 
         public override string ToString()
@@ -94,8 +93,8 @@ namespace PudelkoProject
                     throw new FormatException(String.Format($"The {format} format string is not supported."));
             }
         }
+        
         #endregion
-
         #region Implementation IEquatable
 
         public bool Equals(Pudelko other)
@@ -126,9 +125,10 @@ namespace PudelkoProject
         }
         public static bool operator ==(Pudelko p1, Pudelko p2) => Equals(p1, p2);
         public static bool operator !=(Pudelko p1, Pudelko p2) => !(p1 == p2);
-        #endregion
         
+        #endregion
         #region Implementation of operators
+        
         public static Pudelko operator +(Pudelko p1, Pudelko p2)
         {
             double outputA, outputB, outputC;
@@ -152,20 +152,42 @@ namespace PudelkoProject
 
             return new Pudelko(outputA, outputB, outputC);
         }
+        
         #endregion
-
         #region Conversion
-
+        
         public static explicit operator double[](Pudelko p1)
         {
             return new[] { p1.A, p1.B, p1.C };
-        }
+        } // Explicit conversion Pudelko -> double[] 
 
         public static implicit operator Pudelko(ValueTuple<int, int, int> input)
         {
             return new Pudelko(input.Item1, input.Item2, input.Item3, UnitOfMeasure.milimeter);
-        }
+        } // ValueTuple -> Pudelko
+        
         #endregion
+        #region IEnumerator
+        
+        private int position = -1;
+        public bool MoveNext()
+        {
+            position++;
+            return (position < dimensions.Length);
+        }
+        public void Reset()
+        {
+            position = -1;
+        }
+        public object Current => Math.Round(dimensions[position] / 1000, 3);
+
+        public IEnumerator GetEnumerator()
+        {
+            return (IEnumerator)this;
+        }
+        
+        #endregion
+        
         
         
     }
