@@ -480,7 +480,29 @@ namespace UnitTestsPudelko
         #endregion
 
         #region Equals ===========================================
-        // ToDo
+
+        [DataTestMethod, TestCategory("Equals")]
+        [DataRow(1, 2, 3, 3, 2, 1)]
+        [DataRow(1, 2, 3, 1, 2, 3)]
+        [DataRow(0.01, 0.02, 0.03, 0.03, 0.02, 0.01)]
+        [DataRow(0.01, 0.02, 0.03, 0.01, 0.02, 0.03)]
+        [DataRow(3, 2, 1, 1, 2, 3)]
+        [DataRow(5, 5, 5, 5, 5, 5)]
+        [DataRow(0.001, 0.001, 0.001, 0.001, 0.001, 0.001)]
+        [DataRow(5, 5, 1, 5, 1, 5)]
+        [DataRow(10, 10, 10, 10, 10, 10)]
+        [DataRow(8, 0.001, 8, 8, 8, 0.001)]
+
+        public void Equal_And_NotEqual_Tests(double a, double b, double c, double d, double e, double f)
+        {
+            
+            var p1 = new Pudelko(a, b, c);
+            var p2 = new Pudelko(d, e, f);
+            
+            Assert.AreEqual(true, p1 == p2 );
+            Assert.AreEqual(false, p1 != p2);
+            
+        }
         #endregion
 
         #region Operators overloading ===========================
