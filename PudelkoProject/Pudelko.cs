@@ -98,10 +98,10 @@ namespace PudelkoProject
         #endregion
         #region Implementation IEquatable
 
-        public bool Equals(Pudelko? other)
+        public bool Equals(Pudelko other)
         {
             if (other == null) return false;
-            if (ReferenceEquals(this, other)) return true;
+            if (Object.ReferenceEquals(this, other)) return true;
 
             double[] thisBox = { this.A, this.B, this.C };
             double[] otherBox = { other.A, other.B, other.C };
@@ -110,20 +110,22 @@ namespace PudelkoProject
             return thisBox[0] == otherBox[0] & thisBox[1] == otherBox[1] & thisBox[2] == otherBox[2];
         }
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             if (obj is Pudelko) return Equals((Pudelko)obj);
-            return false;
+            else return false;
         }
+
         public override int GetHashCode() => this.dimensions.GetHashCode();
 
         public static bool Equals(Pudelko p1, Pudelko p2)
         {
-            if ((p1 is null) && (p2 is null)) return false;
+            if ((p1 is null) && (p2 is null)) return true;
             if ((p1 is null)) return false;
 
             return p1.Equals(p2);
         }
+
         public static bool operator ==(Pudelko p1, Pudelko p2) => Equals(p1, p2);
         public static bool operator !=(Pudelko p1, Pudelko p2) => !(p1 == p2);
         
@@ -133,23 +135,22 @@ namespace PudelkoProject
         public static Pudelko operator +(Pudelko p1, Pudelko p2)
         {
             double outputA, outputB, outputC;
-            double[] dimensionsP1 = { p1.A, p1.B, p1.C };
-            double[] dimensionsP2 = { p2.A, p2.B, p2.C };
-            
-            Array.Sort(dimensionsP1);
-            Array.Sort(dimensionsP2);
+            double[] dimensionsFirst = { p1.A, p1.B, p1.C };
+            double[] dimensionsSecond = { p2.A, p2.B, p2.C };
+            Array.Sort(dimensionsFirst);
+            Array.Sort(dimensionsSecond);
 
-            if (dimensionsP1[2] > dimensionsP2[2])
-                outputA = dimensionsP1[2];
+            if (dimensionsFirst[2] > dimensionsSecond[2])
+                outputA = dimensionsFirst[2];
             else
-                outputA = dimensionsP2[2];
-            
-            if (dimensionsP1[1] > dimensionsP1[2])
-                outputB = dimensionsP1[1];
-            else
-                outputB = dimensionsP2[1];
+                outputA = dimensionsSecond[2];
 
-            outputC = dimensionsP1[0] + dimensionsP2[0];
+            if (dimensionsFirst[1] > dimensionsSecond[1])
+                outputB = dimensionsFirst[1];
+            else
+                outputB = dimensionsSecond[1];
+
+            outputC = dimensionsFirst[0] + dimensionsSecond[0];
 
             return new Pudelko(outputA, outputB, outputC);
         }
@@ -189,39 +190,41 @@ namespace PudelkoProject
         
         #endregion
         
-        public double this[int i] { get => Math.Round(dimensions[i] / 1000, 3); }
+        public double this[int i] { get => Math.Round(dimensions[i] / 1000, 3); } //Indexer (read-only)
 
         public static Pudelko Parse(string input)
         {
             if (String.IsNullOrWhiteSpace(input)) throw new ArgumentException(input);
 
-            string[] inputWords = input.Split("×");
+            string[] inputWords = input.Split(" × ");
+
             double[] inputDimensions = { 100, 100, 100 };
 
-            if (inputWords.Length > 3) throw new FormatException("Format exceeded third dimension.");
-            
+            if (inputWords.Length > 3) throw new FormatException("Format exceeded third dimension");
+
             for (int i = 0; i < inputWords.Length; i++)
-            {
-                int factor;
-                string[] word = inputWords[i].Split(' ');
-                
-                if (word.Length == 1) factor = 100;
-                else if (word[1].ToUpper() == "M")
-                    factor = 1000;
-                else if (word[1].ToUpper() == "CM")
-                    factor = 10;
-                else if (word[1].ToUpper() == "MM")
-                    factor = 1;
-                else
-                    throw new FormatException($"Format {word[i]} is not suported");
+                if (inputWords[i] is not null)
+                {
+                    string[] word = inputWords[i].Split(' ');
 
-                bool conversionSuccess = double.TryParse(word[0], out double parsedValue);
+                    int factor;
 
-                if (!conversionSuccess)
-                    throw new FormatException("Conversion failed. Input string was not correctly formated.");
-                
-                inputDimensions[i] = parsedValue * factor;
-            }
+                    if (word.Length == 1) factor = 1000;
+                    else if (word[1].ToUpper() == "M")
+                        factor = 1000;
+                    else if (word[1].ToUpper() == "CM")
+                        factor = 10;
+                    else if (word[1].ToUpper() == "MM")
+                        factor = 1;
+                    else
+                        throw new FormatException($"Format {word[1]} is not supported");
+
+                    bool conversionSuccess = double.TryParse(word[0], out double parsedValue);
+
+                    if (!conversionSuccess) throw new FormatException("Conversion failed. Input string was not correctly formated.");
+
+                    inputDimensions[i] = parsedValue * factor;
+                }
 
             return new Pudelko(inputDimensions[0], inputDimensions[1], inputDimensions[2], UnitOfMeasure.milimeter);
         } // Parse from string
