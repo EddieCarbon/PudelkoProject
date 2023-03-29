@@ -152,15 +152,21 @@ namespace PudelkoProject
 
             return new Pudelko(outputA, outputB, outputC);
         }
-
-
-
-
-
-        }
-        
-
         #endregion
+
+        #region Conversion
+
+        public static explicit operator double[](Pudelko p1)
+        {
+            return new[] { p1.A, p1.B, p1.C };
+        }
+
+        public static implicit operator Pudelko(ValueTuple<int, int, int> input)
+        {
+            return new Pudelko(input.Item1, input.Item2, input.Item3, UnitOfMeasure.milimeter);
+        }
+        #endregion
+        
         
     }
 }
