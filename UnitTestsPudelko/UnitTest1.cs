@@ -645,7 +645,24 @@ namespace PudelkoUnitTests
         #endregion
 
         #region Extension Method (compressing)===================
-        // TODO
+
+        [DataTestMethod, TestCategory("Compress")]
+        [DataRow(0.001, 0.001, 0.001)]
+        [DataRow(0.01, 0.01, 0.02)]
+        [DataRow(10, 10, 10)]
+        [DataRow(1, 4, 9)]
+        [DataRow(10, 1, 10)]
+        public void Compress_Test_Method(double a, double b, double c)
+        {
+            var box = new Pudelko(a, b, c);
+            var compressedBox = box.Kompresuj();
+            
+            //Method have inaccuaracy up to 0.1m^2 of box capacity due to edge resolution.
+            Assert.AreEqual(box.Objetosc, compressedBox.Objetosc, delta: 0.100000001);
+            Assert.AreEqual(compressedBox.A, compressedBox.B);
+            Assert.AreEqual(compressedBox.A, compressedBox.C);
+        }
+
         #endregion
 
     }
