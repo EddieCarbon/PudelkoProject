@@ -39,6 +39,50 @@ namespace PudelkoProject
             Console.WriteLine("\nSorted list: \n");
             foreach (Pudelko p in boxList)
                 Console.WriteLine(p.ToString());
+            
+            try
+            {
+                var exception1 = new Pudelko(-1.0, 0.8, 0.8);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Błąd {ex.Message} - ujemna wartość");
+            }
+            try
+            {
+                var exception2 = new Pudelko(0.0, 0.8, 0.8);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Błąd {ex.Message} - zerowa wartość");
+            }
+            
+            //Comparing of boxes
+            var p1 = new Pudelko(2.3, 8.321, 0.2);
+            var p2 = new Pudelko(2300, 8321, UnitOfMeasure.milimeter);
+            var p3 = p1 + p2;
+            Console.WriteLine($"\nPudelko A {p1.ToString("mm")}");
+            Console.WriteLine($"\nPudelko B {p2.ToString("cm")}");
+            Console.WriteLine($"Pudelko C: A + B {p3.ToString("cm")}");
+            
+            // Equals
+            Console.WriteLine($"\nA == B {p1 == p2}");
+            Console.WriteLine($"C != B {p3 != p2}");
+            Console.WriteLine($"C == A {p3 == p2}");
+
+            // Indexer
+            Console.WriteLine("\nboki pudelka C:");
+            Console.WriteLine($"Bok 1 {p3[0]}");
+            Console.WriteLine($"Bok 2 {p3[1]}");
+            Console.WriteLine($"Bok 3 {p3[2]}");
+            
+            // Extension method Kompresuj()
+            var compressBox = p1.Kompresuj();
+            Console.WriteLine($"Wymiary pudelka 1 (przed kompresja): {p1.ToString("m")}");
+            Console.WriteLine($"\nObjętość pudelka 1 (bez kompresowania): {p1.Objetosc}");
+            Console.WriteLine($"Wymiary pudelka 1 (po kompresji): {compressBox.ToString("m")}");
+            Console.WriteLine($"\nObjętość pudelka 1 (skompresowanego): {compressBox.Objetosc}");
+
         }
 
         private static int Comparison(Pudelko p1, Pudelko p2)

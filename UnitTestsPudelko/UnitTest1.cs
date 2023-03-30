@@ -662,8 +662,6 @@ namespace PudelkoUnitTests
             Assert.AreEqual(compressedBox.A, compressedBox.B);
             Assert.AreEqual(compressedBox.A, compressedBox.C);
         }
-
         #endregion
-
     }
 }
